@@ -39,13 +39,19 @@ npm run lint     # 运行 ESLint 检查
 
 ### 后端 API
 
-三组 API 路由（`src/app/api/`），数据库操作封装在 `src/lib/db.ts`：
+七组 API 路由（`src/app/api/`），数据库操作封装在 `src/lib/db.ts`：
 
-- `GET/POST /api/counters` — 获取/递增模型计数器（candles、flowers、respects）
+- `POST /api/auth/send-code` — 发送邮箱验证码
+- `POST /api/auth/verify` — 验证码登录，设置 session cookie
+- `GET /api/auth/me` — 获取当前登录用户
+- `POST /api/auth/logout` — 登出
+- `GET/POST /api/counters` — 获取/递增模型计数器（candles、flowers、respects、incense），POST 需登录且每类型每天每模型限一次
 - `GET/POST /api/visitors` — 获取/递增全局访客数
-- `GET/POST /api/eulogies` — 获取/提交悼词
+- `GET/POST /api/eulogies` — 获取/提交悼词（支持回复 parentId），POST 需登录
 
-前端通过 `src/lib/firebase.ts`（API 客户端）调用这些接口，导出函数签名与组件调用方式不变。
+认证基于 HTTP-only session cookie，会话存储在 SQLite。邮件通过 nodemailer 发送（未配置 SMTP 时验证码打印到控制台）。
+
+前端通过 `src/lib/firebase.ts`（API 客户端）调用这些接口。`src/components/Auth/AuthProvider.tsx` 提供全局认证状态和 `requireAuth()` 方法。
 
 ### 数据层
 
@@ -58,7 +64,7 @@ npm run lint     # 运行 ESLint 检查
 
 ## 数据存储
 
-无需任何外部服务配置。SQLite 数据库文件 `data/cemetery.db` 在首次 API 请求时自动创建（已加入 `.gitignore`）。
+SQLite 数据库文件 `data/cemetery.db` 在首次 API 请求时自动创建（已加入 `.gitignore`）。SMTP 配置可选，未配置时验证码打印到控制台，模板见 `.env.example`。
 
 ## 编码约定
 

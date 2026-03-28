@@ -4,38 +4,47 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { incrementCounter, getCounter } from '@/lib/firebase';
+import { useAuth } from '@/components/Auth/AuthProvider';
 
 export default function PressF({ modelId }: { modelId: string }) {
   const t = useTranslations('interactions');
+  const { user, requireAuth } = useAuth();
   const [count, setCount] = useState(0);
   const [showFlash, setShowFlash] = useState(false);
   const [showF, setShowF] = useState(false);
+  const [limited, setLimited] = useState(false);
 
   useEffect(() => {
     getCounter(modelId, 'respects').then(setCount);
   }, [modelId]);
 
-  // Listen for 'F' key press
+  const handlePressF = useCallback(async () => {
+    if (!requireAuth()) return;
+    setShowFlash(true);
+    setShowF(true);
+    const result = await incrementCounter(modelId, 'respects');
+    if (result.error) {
+      if (result.limited) setLimited(true);
+    } else {
+      setCount(result.count);
+    }
+
+    setTimeout(() => setShowFlash(false), 600);
+    setTimeout(() => setShowF(false), 1500);
+  }, [modelId, requireAuth]);
+
+  // Listen for 'F' key press (only if logged in)
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'f' || e.key === 'F') {
         if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+        if (!user) return;
         handlePressF();
       }
     };
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
-  }, [modelId]);
-
-  const handlePressF = useCallback(async () => {
-    setShowFlash(true);
-    setShowF(true);
-    const newCount = await incrementCounter(modelId, 'respects');
-    setCount(newCount);
-
-    setTimeout(() => setShowFlash(false), 600);
-    setTimeout(() => setShowF(false), 1500);
-  }, [modelId]);
+  }, [user, handlePressF]);
 
   return (
     <motion.button
@@ -48,10 +57,9 @@ export default function PressF({ modelId }: { modelId: string }) {
         {t('pressF')}
       </span>
       <span className="text-[10px] text-gray-600">
-        {t('respectsPaid', { count })}
+        {limited ? t('alreadyDone') : t('respectsPaid', { count })}
       </span>
 
-      {/* Big F overlay */}
       <AnimatePresence>
         {showF && (
           <motion.div
@@ -66,7 +74,6 @@ export default function PressF({ modelId }: { modelId: string }) {
         )}
       </AnimatePresence>
 
-      {/* Screen flash */}
       <AnimatePresence>
         {showFlash && (
           <motion.div

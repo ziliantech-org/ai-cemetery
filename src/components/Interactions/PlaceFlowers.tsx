@@ -4,21 +4,29 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { incrementCounter, getCounter } from '@/lib/firebase';
+import { useAuth } from '@/components/Auth/AuthProvider';
 
 const flowerEmojis = ['🌹', '🌺', '🌸', '💐', '🌻', '🌷'];
 
 export default function PlaceFlowers({ modelId }: { modelId: string }) {
   const t = useTranslations('interactions');
+  const { requireAuth } = useAuth();
   const [count, setCount] = useState(0);
   const [floatingFlowers, setFloatingFlowers] = useState<{ id: number; emoji: string }[]>([]);
+  const [limited, setLimited] = useState(false);
 
   useEffect(() => {
     getCounter(modelId, 'flowers').then(setCount);
   }, [modelId]);
 
   const handlePlace = useCallback(async () => {
-    const newCount = await incrementCounter(modelId, 'flowers');
-    setCount(newCount);
+    if (!requireAuth()) return;
+    const result = await incrementCounter(modelId, 'flowers');
+    if (result.error) {
+      if (result.limited) setLimited(true);
+      return;
+    }
+    setCount(result.count);
 
     const flower = {
       id: Date.now(),
@@ -28,7 +36,7 @@ export default function PlaceFlowers({ modelId }: { modelId: string }) {
     setTimeout(() => {
       setFloatingFlowers((prev) => prev.filter((f) => f.id !== flower.id));
     }, 2000);
-  }, [modelId]);
+  }, [modelId, requireAuth]);
 
   return (
     <motion.button
@@ -41,10 +49,9 @@ export default function PlaceFlowers({ modelId }: { modelId: string }) {
         {t('placeFlowers')}
       </span>
       <span className="text-[10px] text-gray-600">
-        {t('flowersPlaced', { count })}
+        {limited ? t('alreadyDone') : t('flowersPlaced', { count })}
       </span>
 
-      {/* Floating flowers */}
       <AnimatePresence>
         {floatingFlowers.map((flower) => (
           <motion.div

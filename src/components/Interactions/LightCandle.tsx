@@ -1,31 +1,37 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { incrementCounter, getCounter } from '@/lib/firebase';
-import { useEffect } from 'react';
+import { useAuth } from '@/components/Auth/AuthProvider';
 
 export default function LightCandle({ modelId }: { modelId: string }) {
   const t = useTranslations('interactions');
+  const { requireAuth } = useAuth();
   const [count, setCount] = useState(0);
   const [particles, setParticles] = useState<number[]>([]);
   const [isLit, setIsLit] = useState(false);
+  const [limited, setLimited] = useState(false);
 
   useEffect(() => {
     getCounter(modelId, 'candles').then(setCount);
   }, [modelId]);
 
   const handleLight = useCallback(async () => {
+    if (!requireAuth()) return;
     setIsLit(true);
-    const newCount = await incrementCounter(modelId, 'candles');
-    setCount(newCount);
+    const result = await incrementCounter(modelId, 'candles');
+    if (result.error) {
+      if (result.limited) setLimited(true);
+      return;
+    }
+    setCount(result.count);
 
-    // Spawn particles
     const newParticles = Array.from({ length: 6 }, () => Date.now() + Math.random());
     setParticles((prev) => [...prev, ...newParticles]);
     setTimeout(() => setParticles((prev) => prev.filter((p) => !newParticles.includes(p))), 2000);
-  }, [modelId]);
+  }, [modelId, requireAuth]);
 
   return (
     <motion.button
@@ -33,7 +39,6 @@ export default function LightCandle({ modelId }: { modelId: string }) {
       whileTap={{ scale: 0.95 }}
       onClick={handleLight}
     >
-      {/* Candle icon with optional flame */}
       <div className="relative text-2xl">
         🕯️
         <AnimatePresence>
@@ -55,10 +60,9 @@ export default function LightCandle({ modelId }: { modelId: string }) {
       </span>
 
       <span className="text-[10px] text-gray-600">
-        {t('candleLit', { count })}
+        {limited ? t('alreadyDone') : t('candleLit', { count })}
       </span>
 
-      {/* Particles */}
       <AnimatePresence>
         {particles.map((id) => (
           <motion.div

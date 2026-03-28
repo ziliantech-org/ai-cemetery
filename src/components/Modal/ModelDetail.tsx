@@ -8,7 +8,7 @@ import LightCandle from '../Interactions/LightCandle';
 import PlaceFlowers from '../Interactions/PlaceFlowers';
 import WriteEulogy from '../Interactions/WriteEulogy';
 import PressF from '../Interactions/PressF';
-import ShareButton from '../Interactions/ShareButton';
+import BurnIncense from '../Interactions/BurnIncense';
 
 interface ModelDetailProps {
   model: AIModel;
@@ -123,7 +123,7 @@ export default function ModelDetail({ model, onClose }: ModelDetailProps) {
               <LightCandle modelId={model.id} />
               <PlaceFlowers modelId={model.id} />
               <PressF modelId={model.id} />
-              <ShareButton modelName={isZh ? model.nameZh : model.name} />
+              <BurnIncense modelId={model.id} />
             </div>
 
             {/* Eulogy section */}
