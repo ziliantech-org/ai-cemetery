@@ -11,9 +11,10 @@ import MoonLight from './MoonLight';
 
 interface CemeterySceneProps {
   onSelectModel: (model: AIModel) => void;
+  refreshKey?: number;
 }
 
-export default function CemeteryScene({ onSelectModel }: CemeterySceneProps) {
+export default function CemeteryScene({ onSelectModel, refreshKey }: CemeterySceneProps) {
   const t = useTranslations('cemetery');
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -22,7 +23,7 @@ export default function CemeteryScene({ onSelectModel }: CemeterySceneProps) {
 
   useEffect(() => {
     getAllModelTotals().then(setTotals);
-  }, []);
+  }, [refreshKey]);
 
   const sortedModels = useMemo(() => {
     return [...models].sort((a, b) => (totals[b.id] ?? 0) - (totals[a.id] ?? 0));

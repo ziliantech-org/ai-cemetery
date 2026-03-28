@@ -33,7 +33,9 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-cemetery-bg via-cemetery-bg/95 to-transparent">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group">
-          <span className="text-2xl">🪦</span>
+          <svg className="w-6 h-6 text-cemetery-gold/70" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C9.5 2 7 4 7 7v9H5v2h14v-2h-2V7c0-3-2.5-5-5-5zm0 2c1.6 0 3 1.4 3 3v9H9V7c0-1.6 1.4-3 3-3zm-1 4v2H9v2h2v3h2v-3h2v-2h-2V8h-2zm-5 12v2h12v-2H6z"/>
+          </svg>
           <div>
             <h1 className="font-serif text-xl font-bold text-cemetery-gold group-hover:text-white transition-colors">
               {t('title')}
