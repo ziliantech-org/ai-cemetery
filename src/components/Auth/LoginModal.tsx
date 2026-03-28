@@ -108,7 +108,9 @@ export default function LoginModal({ onClose, onSuccess }: LoginModalProps) {
           </button>
 
           <div className="text-center mb-6">
-            <div className="text-2xl mb-2">🪦</div>
+            <svg className="w-7 h-7 mx-auto mb-2 text-cemetery-gold/70" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C9.5 2 7 4 7 7v9H5v2h14v-2h-2V7c0-3-2.5-5-5-5zm0 2c1.6 0 3 1.4 3 3v9H9V7c0-1.6 1.4-3 3-3zm-1 4v2H9v2h2v3h2v-3h2v-2h-2V8h-2zm-5 12v2h12v-2H6z"/>
+            </svg>
             <h3 className="font-serif text-lg text-cemetery-gold">{t('title')}</h3>
             <p className="text-xs text-gray-500 mt-1">{t('subtitle')}</p>
           </div>
