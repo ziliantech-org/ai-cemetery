@@ -34,5 +34,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# database
+/data/*.db
+/data/*.db-wal
+/data/*.db-shm
+
 # superpowers
 .superpowers/

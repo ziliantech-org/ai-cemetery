@@ -1,112 +1,58 @@
-import { initializeApp, getApps } from 'firebase/app';
-import { getDatabase, ref, get, set, runTransaction } from 'firebase/database';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  query,
-  orderBy,
-  limit,
-  getDocs,
-  serverTimestamp,
-} from 'firebase/firestore';
+// API client — replaces direct Firebase SDK calls with backend API routes.
+// Function signatures are preserved so components need no changes.
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
-};
-
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-
-// Check if Firebase is configured
-const isFirebaseConfigured = !!firebaseConfig.apiKey;
-
-// Realtime Database — counters
-function getDb() {
-  if (!isFirebaseConfigured) return null;
-  return getDatabase(app);
-}
-
-// Firestore — eulogies
-function getFs() {
-  if (!isFirebaseConfigured) return null;
-  return getFirestore(app);
-}
-
-// --- Counter operations (Realtime DB) ---
+// --- Counter operations ---
 
 export async function incrementCounter(
   modelId: string,
   type: 'candles' | 'flowers' | 'respects'
 ): Promise<number> {
-  const db = getDb();
-  if (!db) return Math.floor(Math.random() * 1000); // Demo mode
-
-  const counterRef = ref(db, `counters/${modelId}/${type}`);
-  let newVal = 0;
-  await runTransaction(counterRef, (current) => {
-    newVal = (current || 0) + 1;
-    return newVal;
+  const res = await fetch('/api/counters', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ modelId, type }),
   });
-  return newVal;
+  const data = await res.json();
+  return data.count;
 }
 
 export async function getCounter(
   modelId: string,
   type: 'candles' | 'flowers' | 'respects'
 ): Promise<number> {
-  const db = getDb();
-  if (!db) return Math.floor(Math.random() * 500);
-
-  const counterRef = ref(db, `counters/${modelId}/${type}`);
-  const snapshot = await get(counterRef);
-  return snapshot.val() || 0;
+  const res = await fetch(
+    `/api/counters?modelId=${encodeURIComponent(modelId)}&type=${type}`
+  );
+  const data = await res.json();
+  return data.count;
 }
 
 export async function getGlobalVisitors(): Promise<number> {
-  const db = getDb();
-  if (!db) return Math.floor(Math.random() * 10000) + 5000;
-
-  const visitorRef = ref(db, 'globalVisitors');
-  const snapshot = await get(visitorRef);
-  return snapshot.val() || 0;
+  const res = await fetch('/api/visitors');
+  const data = await res.json();
+  return data.count;
 }
 
 export async function incrementGlobalVisitors(): Promise<number> {
-  const db = getDb();
-  if (!db) return Math.floor(Math.random() * 10000) + 5000;
-
-  const visitorRef = ref(db, 'globalVisitors');
-  let newVal = 0;
-  await runTransaction(visitorRef, (current) => {
-    newVal = (current || 0) + 1;
-    return newVal;
-  });
-  return newVal;
+  const res = await fetch('/api/visitors', { method: 'POST' });
+  const data = await res.json();
+  return data.count;
 }
 
-// --- Eulogy operations (Firestore) ---
+// --- Eulogy operations ---
 
 export interface Eulogy {
-  id?: string;
+  id?: string | number;
   modelId: string;
   text: string;
-  createdAt: Date | null;
+  createdAt: Date | string | null;
 }
 
 export async function addEulogy(modelId: string, text: string): Promise<void> {
-  const fs = getFs();
-  if (!fs) return;
-
-  await addDoc(collection(fs, 'eulogies'), {
-    modelId,
-    text: text.slice(0, 280),
-    createdAt: serverTimestamp(),
+  await fetch('/api/eulogies', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ modelId, text: text.slice(0, 280) }),
   });
 }
 
@@ -114,24 +60,14 @@ export async function getEulogies(
   modelId: string,
   count = 20
 ): Promise<Eulogy[]> {
-  const fs = getFs();
-  if (!fs) {
-    return [
-      { modelId, text: 'You were the best AI I ever used. RIP.', createdAt: new Date() },
-      { modelId, text: '永远怀念你，谢谢你的陪伴。', createdAt: new Date() },
-      { modelId, text: 'Gone but not forgotten.', createdAt: new Date() },
-    ];
-  }
-
-  const q = query(
-    collection(fs, 'eulogies'),
-    orderBy('createdAt', 'desc'),
-    limit(count)
+  const res = await fetch(
+    `/api/eulogies?modelId=${encodeURIComponent(modelId)}&count=${count}`
   );
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-    createdAt: doc.data().createdAt?.toDate() || null,
-  })) as Eulogy[];
+  const data = await res.json();
+  return (data.eulogies ?? []).map((e: { id: number; modelId: string; text: string; createdAt: string }) => ({
+    id: e.id,
+    modelId: e.modelId,
+    text: e.text,
+    createdAt: e.createdAt ? new Date(e.createdAt) : null,
+  }));
 }
