@@ -1,0 +1,41 @@
+{
+  "site": {
+    "title": "AI Cemetery",
+    "subtitle": "Where dead AI models rest in peace",
+    "description": "A memorial for discontinued AI models. Light a candle, leave flowers, or press F to pay respects.",
+    "visitors": "{count} souls have visited",
+    "language": "中文"
+  },
+  "cemetery": {
+    "enterPrompt": "Scroll to explore the cemetery →",
+    "clickToVisit": "Click to visit grave"
+  },
+  "model": {
+    "born": "Born",
+    "died": "Died",
+    "causeOfDeath": "Cause of Death",
+    "epitaph": "Epitaph",
+    "company": "Company",
+    "lifespan": "{days} days of service"
+  },
+  "interactions": {
+    "lightCandle": "Light a Candle",
+    "candleLit": "{count} candles lit",
+    "placeFlowers": "Place Flowers",
+    "flowersPlaced": "{count} bouquets placed",
+    "writeEulogy": "Write a Eulogy",
+    "eulogyPlaceholder": "Write your farewell message...",
+    "submitEulogy": "Leave Message",
+    "pressF": "Press F to Pay Respects",
+    "respectsPaid": "{count} respects paid",
+    "share": "Share",
+    "shareText": "I just paid respects to {name} at AI Cemetery 🪦"
+  },
+  "timeline": {
+    "title": "Timeline of AI Deaths",
+    "subtitle": "A chronicle of fallen artificial intelligences",
+    "viewCemetery": "← Back to Cemetery",
+    "viewTimeline": "View Timeline →",
+    "died": "Died"
+  }
+}

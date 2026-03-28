@@ -1,0 +1,41 @@
+{
+  "site": {
+    "title": "AI 公墓",
+    "subtitle": "逝去的 AI 模型在此安息",
+    "description": "一座为已停用AI模型建造的纪念碑。点一支蜡烛、献一束花、或按F键致敬。",
+    "visitors": "{count} 位访客已前来祭拜",
+    "language": "EN"
+  },
+  "cemetery": {
+    "enterPrompt": "← 滑动探索墓园 →",
+    "clickToVisit": "点击前往墓前"
+  },
+  "model": {
+    "born": "诞生",
+    "died": "死亡",
+    "causeOfDeath": "死因",
+    "epitaph": "墓志铭",
+    "company": "所属公司",
+    "lifespan": "服役 {days} 天"
+  },
+  "interactions": {
+    "lightCandle": "点一支蜡烛",
+    "candleLit": "已点燃 {count} 支蜡烛",
+    "placeFlowers": "献花",
+    "flowersPlaced": "已献 {count} 束花",
+    "writeEulogy": "写一段悼词",
+    "eulogyPlaceholder": "写下你的告别寄语...",
+    "submitEulogy": "留言",
+    "pressF": "按 F 键致敬",
+    "respectsPaid": "{count} 人已致敬",
+    "share": "分享",
+    "shareText": "我刚在 AI 公墓 为 {name} 献上了敬意 🪦"
+  },
+  "timeline": {
+    "title": "AI 死亡时间线",
+    "subtitle": "一部人工智能阵亡编年史",
+    "viewCemetery": "← 返回墓园",
+    "viewTimeline": "查看时间线 →",
+    "died": "卒于"
+  }
+}

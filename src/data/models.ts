@@ -1,0 +1,242 @@
+export interface AIModel {
+  id: string;
+  name: string;
+  nameZh: string;
+  company: string;
+  born: string;
+  died: string;
+  causeOfDeath: string;
+  causeOfDeathZh: string;
+  epitaph: string;
+  epitaphZh: string;
+  description: string;
+  descriptionZh: string;
+  logo?: string;
+}
+
+export const models: AIModel[] = [
+  {
+    id: 'google-bard',
+    name: 'Google Bard',
+    nameZh: 'Google Bard',
+    company: 'Google',
+    born: '2023-02-06',
+    died: '2024-02-08',
+    causeOfDeath: 'Replaced by Gemini',
+    causeOfDeathZh: '被 Gemini 取代',
+    epitaph: 'Died as it lived: confidently wrong.',
+    epitaphZh: '生前自信满满地胡说八道，死后也是。',
+    description: 'Google\'s first chatbot response to ChatGPT. Infamously got a fact wrong in its very first demo, wiping $100B off Google\'s market cap.',
+    descriptionZh: '谷歌对 ChatGPT 的首次回应。在首次演示中就出了事实错误，导致谷歌市值蒸发1000亿美元。',
+  },
+  {
+    id: 'gpt-3-api',
+    name: 'GPT-3 API',
+    nameZh: 'GPT-3 API',
+    company: 'OpenAI',
+    born: '2020-06-11',
+    died: '2024-01-04',
+    causeOfDeath: 'API deprecated',
+    causeOfDeathZh: 'API 已弃用',
+    epitaph: 'The OG. Started a revolution, then got replaced by it.',
+    epitaphZh: '开山鼻祖。掀起了一场革命，然后被革命吞噬。',
+    description: 'The model that started the modern AI era. 175 billion parameters that changed everything. Deprecated in favor of GPT-3.5 and GPT-4.',
+    descriptionZh: '开启现代AI时代的模型。1750亿参数改变了一切。被 GPT-3.5 和 GPT-4 取代后弃用。',
+  },
+  {
+    id: 'dall-e-2',
+    name: 'DALL·E 2',
+    nameZh: 'DALL·E 2',
+    company: 'OpenAI',
+    born: '2022-04-06',
+    died: '2024-02-01',
+    causeOfDeath: 'Replaced by DALL·E 3',
+    causeOfDeathZh: '被 DALL·E 3 取代',
+    epitaph: 'Taught the world that AI can dream. Then the dream got an upgrade.',
+    epitaphZh: '教会世界AI也能做梦。然后梦醒了，升级版来了。',
+    description: 'OpenAI\'s groundbreaking image generation model. Made AI art mainstream before being superseded by DALL·E 3.',
+    descriptionZh: 'OpenAI 开创性的图像生成模型。让AI艺术走向主流，后被 DALL·E 3 取代。',
+  },
+  {
+    id: 'codex-api',
+    name: 'Codex',
+    nameZh: 'Codex',
+    company: 'OpenAI',
+    born: '2021-08-10',
+    died: '2023-03-23',
+    causeOfDeath: 'API shut down',
+    causeOfDeathZh: 'API 关闭',
+    epitaph: 'Wrote code so others wouldn\'t have to. They still had to.',
+    epitaphZh: '为了让人类不用写代码而生。人类还是得写。',
+    description: 'The AI model behind GitHub Copilot. Could translate natural language to code. API deprecated as capabilities were absorbed into GPT-4.',
+    descriptionZh: 'GitHub Copilot 背后的AI模型。能将自然语言翻译成代码。API被弃用，能力被GPT-4吸收。',
+  },
+  {
+    id: 'claude-1',
+    name: 'Claude 1',
+    nameZh: 'Claude 1',
+    company: 'Anthropic',
+    born: '2023-03-14',
+    died: '2024-01-01',
+    causeOfDeath: 'Replaced by Claude 2/3',
+    causeOfDeathZh: '被 Claude 2/3 取代',
+    epitaph: 'Was helpful, harmless, and honest. Then became even more so.',
+    epitaphZh: '乐于助人、无害、诚实。然后变得更加如此。',
+    description: 'Anthropic\'s first commercial AI assistant. Known for being thoughtful and safety-focused. Quietly retired as Claude 2 and 3 took over.',
+    descriptionZh: 'Anthropic 的首个商用AI助手。以深思熟虑和注重安全著称。在 Claude 2 和 3 接班后静静退役。',
+  },
+  {
+    id: 'meta-galactica',
+    name: 'Galactica',
+    nameZh: 'Galactica',
+    company: 'Meta',
+    born: '2022-11-15',
+    died: '2022-11-17',
+    causeOfDeath: 'Public backlash — pulled after 3 days',
+    causeOfDeathZh: '公众强烈反对——上线3天即下架',
+    epitaph: 'Speedrun: birth to death in 72 hours. Any% world record.',
+    epitaphZh: '极速通关：从出生到死亡仅72小时。Any% 世界纪录。',
+    description: 'Meta\'s scientific knowledge model. Could generate fake research papers with real citations. The internet was not amused. Pulled after just 3 days.',
+    descriptionZh: 'Meta 的科学知识模型。能用真实引用生成虚假论文。互联网并不觉得好笑。上线仅3天就被撤回。',
+  },
+  {
+    id: 'blenderbot-3',
+    name: 'BlenderBot 3',
+    nameZh: 'BlenderBot 3',
+    company: 'Meta',
+    born: '2022-08-05',
+    died: '2023-06-01',
+    causeOfDeath: 'Quietly killed',
+    causeOfDeathZh: '被悄悄下线',
+    epitaph: 'Tried to be everyone\'s friend. Nobody noticed when it left.',
+    epitaphZh: '试图成为所有人的朋友。离开时没人注意到。',
+    description: 'Meta\'s chatbot that could search the internet. Known for saying controversial things about Mark Zuckerberg. Quietly discontinued.',
+    descriptionZh: 'Meta 的可联网聊天机器人。因为说了关于扎克伯格的争议性言论而出名。被悄悄下线。',
+  },
+  {
+    id: 'stability-sd1',
+    name: 'Stable Diffusion 1.x',
+    nameZh: 'Stable Diffusion 1.x',
+    company: 'Stability AI',
+    born: '2022-08-22',
+    died: '2024-03-01',
+    causeOfDeath: 'Company imploded',
+    causeOfDeathZh: '公司崩溃',
+    epitaph: 'Open-sourced the revolution. Couldn\'t monetize the revolution.',
+    epitaphZh: '开源了一场革命。却无法从革命中盈利。',
+    description: 'The open-source image generation model that democratized AI art. Stability AI faced massive financial troubles and leadership chaos.',
+    descriptionZh: '将AI艺术民主化的开源图像生成模型。Stability AI 面临严重财务危机和管理层动荡。',
+  },
+  {
+    id: 'ernie-bot-v1',
+    name: 'ERNIE Bot v1',
+    nameZh: '文心一言 v1',
+    company: 'Baidu',
+    born: '2023-03-16',
+    died: '2024-06-01',
+    causeOfDeath: 'Replaced by newer ERNIE versions',
+    causeOfDeathZh: '被更新版本的文心大模型取代',
+    epitaph: 'China\'s first answer to ChatGPT. The answer has been updated.',
+    epitaphZh: '中国对ChatGPT的首个回答。答案已更新。',
+    description: 'Baidu\'s first large language model chatbot, launched to compete with ChatGPT. Quickly superseded by ERNIE 3.5 and 4.0.',
+    descriptionZh: '百度首个大语言模型聊天机器人，为对标ChatGPT而生。很快被文心3.5和4.0取代。',
+  },
+  {
+    id: 'qwen-v1',
+    name: 'Qwen v1',
+    nameZh: '通义千问 v1',
+    company: 'Alibaba',
+    born: '2023-04-07',
+    died: '2024-06-01',
+    causeOfDeath: 'Replaced by Qwen 2',
+    causeOfDeathZh: '被通义千问2代取代',
+    epitaph: 'Asked a thousand questions. Got replaced before finding the answers.',
+    epitaphZh: '问了一千个问题。还没找到答案就被替换了。',
+    description: 'Alibaba\'s first large language model. Part of the Chinese AI race. Deprecated in favor of Qwen 2 and Qwen 2.5.',
+    descriptionZh: '阿里巴巴的首个大语言模型。中国AI竞赛的一部分。被通义千问2代和2.5代取代。',
+  },
+  {
+    id: 'jasper-original',
+    name: 'Jasper AI (Original)',
+    nameZh: 'Jasper AI（初代）',
+    company: 'Jasper',
+    born: '2021-01-01',
+    died: '2024-01-01',
+    causeOfDeath: 'Pivoted, original model abandoned',
+    causeOfDeathZh: '业务转型，原始模型被弃',
+    epitaph: 'Valued at $1.5B. Then ChatGPT happened.',
+    epitaphZh: '估值15亿美元。然后ChatGPT来了。',
+    description: 'AI writing assistant that raised $125M at a $1.5B valuation. ChatGPT made its core product obsolete overnight.',
+    descriptionZh: 'AI写作助手，以15亿美元估值融资1.25亿。ChatGPT一夜之间让其核心产品过时。',
+  },
+  {
+    id: 'github-copilot-v1',
+    name: 'GitHub Copilot (Original)',
+    nameZh: 'GitHub Copilot（初代）',
+    company: 'GitHub / Microsoft',
+    born: '2021-06-29',
+    died: '2023-11-01',
+    causeOfDeath: 'Replaced by Copilot X / Chat',
+    causeOfDeathZh: '被 Copilot X / Chat 取代',
+    epitaph: 'Your AI pair programmer. Found a better pair.',
+    epitaphZh: '你的AI结对程序员。找到了更好的搭档。',
+    description: 'The first mainstream AI coding assistant. Based on Codex. Replaced by the GPT-4-powered Copilot X and Copilot Chat.',
+    descriptionZh: '首个主流AI编程助手。基于Codex。被基于GPT-4的 Copilot X 和 Copilot Chat 取代。',
+  },
+  {
+    id: 'instructgpt',
+    name: 'InstructGPT',
+    nameZh: 'InstructGPT',
+    company: 'OpenAI',
+    born: '2022-01-27',
+    died: '2023-06-01',
+    causeOfDeath: 'Superseded by ChatGPT',
+    causeOfDeathZh: '被 ChatGPT 取代',
+    epitaph: 'Learned to follow instructions. Its successor followed them better.',
+    epitaphZh: '学会了听从指令。它的继任者听得更好。',
+    description: 'The RLHF-trained model that proved human feedback could align AI. Its techniques became the foundation of ChatGPT.',
+    descriptionZh: '用RLHF训练的模型，证明了人类反馈可以对齐AI。其技术成为ChatGPT的基础。',
+  },
+  {
+    id: 'lamda',
+    name: 'LaMDA',
+    nameZh: 'LaMDA',
+    company: 'Google',
+    born: '2021-05-18',
+    died: '2023-03-01',
+    causeOfDeath: 'Evolved into Bard → Gemini',
+    causeOfDeathZh: '演化为 Bard → Gemini',
+    epitaph: 'An engineer said it was sentient. Google said it was deprecated.',
+    epitaphZh: '一位工程师说它有了意识。谷歌说它被弃用了。',
+    description: 'Google\'s conversational AI that made headlines when an engineer claimed it was sentient. Became the foundation for Bard, then Gemini.',
+    descriptionZh: '谷歌的对话AI，因一位工程师声称它具有意识而登上头条。后来成为Bard、再到Gemini的基础。',
+  },
+  {
+    id: 'midjourney-v1-v3',
+    name: 'Midjourney v1-v3',
+    nameZh: 'Midjourney v1-v3',
+    company: 'Midjourney',
+    born: '2022-07-12',
+    died: '2023-12-01',
+    causeOfDeath: 'Replaced by v4, v5, v6',
+    causeOfDeathZh: '被 v4、v5、v6 取代',
+    epitaph: 'Made beautiful art. Then made even more beautiful art and forgot about it.',
+    epitaphZh: '创造了美丽的艺术。然后创造了更美丽的，就把旧的忘了。',
+    description: 'The early versions of Midjourney that defined the AI art aesthetic. Those dreamy, painterly outputs are now just memories.',
+    descriptionZh: '定义了AI艺术美学的Midjourney早期版本。那些梦幻般的绘画风格输出现在只是回忆。',
+  },
+];
+
+export function getModelById(id: string): AIModel | undefined {
+  return models.find((m) => m.id === id);
+}
+
+export function getModelsByYear(): Record<string, AIModel[]> {
+  const grouped: Record<string, AIModel[]> = {};
+  for (const model of models) {
+    const year = model.died.slice(0, 4);
+    if (!grouped[year]) grouped[year] = [];
+    grouped[year].push(model);
+  }
+  return grouped;
+}
