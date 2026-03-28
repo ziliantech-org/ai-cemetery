@@ -10,7 +10,9 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get('type');
 
   if (!modelId) {
-    return NextResponse.json({ error: 'modelId is required' }, { status: 400 });
+    // Return totals for all models
+    const totals = db.getAllModelTotals();
+    return NextResponse.json({ totals });
   }
 
   if (type) {

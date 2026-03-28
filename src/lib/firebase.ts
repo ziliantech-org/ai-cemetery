@@ -38,6 +38,12 @@ export async function getCounter(
   return data.count;
 }
 
+export async function getAllModelTotals(): Promise<Record<string, number>> {
+  const res = await fetch('/api/counters');
+  const data = await res.json();
+  return data.totals ?? {};
+}
+
 export async function getGlobalVisitors(): Promise<number> {
   const res = await fetch('/api/visitors');
   const data = await res.json();

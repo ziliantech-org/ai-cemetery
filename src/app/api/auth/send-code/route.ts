@@ -17,7 +17,8 @@ export async function POST(request: NextRequest) {
 
   try {
     await sendVerificationEmail(email.toLowerCase(), code);
-  } catch {
+  } catch (err) {
+    console.error('[send-code] Failed to send email:', err);
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 

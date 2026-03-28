@@ -1,9 +1,10 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { models, type AIModel } from '@/data/models';
+import { getAllModelTotals } from '@/lib/firebase';
 import Tombstone from './Tombstone';
 import FogEffect from './FogEffect';
 import MoonLight from './MoonLight';
@@ -17,6 +18,15 @@ export default function CemeteryScene({ onSelectModel }: CemeterySceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [totals, setTotals] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    getAllModelTotals().then(setTotals);
+  }, []);
+
+  const sortedModels = useMemo(() => {
+    return [...models].sort((a, b) => (totals[b.id] ?? 0) - (totals[a.id] ?? 0));
+  }, [totals]);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
@@ -55,7 +65,7 @@ export default function CemeteryScene({ onSelectModel }: CemeterySceneProps) {
 
         {/* Tombstones vertical grid */}
         <div className="relative z-10 grid grid-cols-2 gap-4 px-4 mt-8">
-          {models.map((model, index) => (
+          {sortedModels.map((model, index) => (
             <motion.div
               key={model.id}
               initial={{ opacity: 0, y: 40 }}
@@ -90,7 +100,7 @@ export default function CemeteryScene({ onSelectModel }: CemeterySceneProps) {
       >
         <div
           className="h-full flex items-end pb-[15%] px-16 gap-12"
-          style={{ width: `${Math.max(100, models.length * 14)}vw` }}
+          style={{ width: `${Math.max(100, sortedModels.length * 14)}vw` }}
         >
           {/* Entry text */}
           <motion.div
@@ -105,7 +115,7 @@ export default function CemeteryScene({ onSelectModel }: CemeterySceneProps) {
           </motion.div>
 
           {/* Tombstones */}
-          {models.map((model, index) => (
+          {sortedModels.map((model, index) => (
             <motion.div
               key={model.id}
               className="flex-shrink-0"

@@ -123,6 +123,18 @@ export function getAllCounters(modelId: string): Record<string, number> {
   return result;
 }
 
+export function getAllModelTotals(): Record<string, number> {
+  const db = getDb();
+  const rows = db.prepare(
+    'SELECT model_id, SUM(count) as total FROM counters GROUP BY model_id'
+  ).all() as { model_id: string; total: number }[];
+  const result: Record<string, number> = {};
+  for (const row of rows) {
+    result[row.model_id] = row.total;
+  }
+  return result;
+}
+
 // --- Visitor operations ---
 
 export function incrementVisitors(): number {

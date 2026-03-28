@@ -1,0 +1,11 @@
+node_modules
+.next
+data
+.env
+.env.local
+.env*.local
+.git
+.claude
+.superpowers
+Dockerfile
+docker-compose.yaml
